@@ -1,6 +1,7 @@
-Excel = Npm.require('excel-export');
+Excel = {};
+Excel.lib = Npm.require('excel-export');
 
-var getColumns = function(fields, data) {
+Excel.getColumns = function(fields, data) {
   var rows = [];
 
   _.each(data, function(item) {
@@ -18,7 +19,7 @@ var getColumns = function(fields, data) {
 };
 
 
-exportToExcel = function(title, fields, data) {
+Excel.export = function(title, fields, data) {
   var rows = getColumns(fields, data);
 
   var excel = {};

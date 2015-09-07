@@ -27,7 +27,7 @@ Router.route('/download-data', function() {
   ];
 
   var title = 'Posts';
-  var file = exportToExcel(title, fields, data);
+  var file = Excel.export(title, fields, data);
   var headers = {
     'Content-type': 'application/vnd.openxmlformats',
     'Content-Disposition': 'attachment; filename=' + title + '.xlsx'
