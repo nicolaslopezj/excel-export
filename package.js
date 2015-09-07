@@ -13,8 +13,7 @@ Package.onUse(function(api) {
   api.versionsFrom('1.0');
 
   api.use(['underscore'], 'server');
-  
-  api.addFiles('excel.js', 'server');
+  api.addFiles(['lib.js', 'excel.js'], 'server');
 
   api.export('Excel', 'server');
 });

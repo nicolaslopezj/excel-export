@@ -7,9 +7,8 @@ Excel.getColumns = function(fields, data) {
   _.each(data, function(item) {
     var row = [];
     _.each(fields, function(field, index) {
-      var value = orion.helpers.searchObjectWithDots(item, field.key) || null;
-      value = _.isFunction(field.transform) ? field.transform(value) : value;
-      value = String(value);
+      var value = searchObject(item, field.key) || null;
+      value = _.isFunction(field.transform) ? field.transform(value, item) : value;
       row[index] = value
     });
     rows.push(row);
@@ -20,17 +19,27 @@ Excel.getColumns = function(fields, data) {
 
 
 Excel.export = function(title, fields, data) {
-  var rows = getColumns(fields, data);
+  check(title, String);
+  check(fields, [{
+    key: String,
+    title: String,
+    type: Match.Optional(String),
+    width: Match.Optional(Number),
+    transform: Match.Optional(Function)
+  }]);
+  check(data, [Match.Any]);
+
+  var rows = this.getColumns(fields, data);
 
   var excel = {};
   excel.cols = fields.map(function(field) {
     return {
       caption: field.title,
-      type: 'string',
-      width: 28.7109375
+      type: field.type || 'string',
+      width: field.width || 28.7109375
     };
   });
 
   excel.rows = rows;
-  return Excel.execute(excel);
+  return Excel.lib.execute(excel);
 }
